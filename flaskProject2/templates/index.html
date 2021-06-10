@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% include 'header.html' %}
+
+
+
+{% block title %} Home {% endblock %}
+
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+
+            <div class="jumbotron p-3">
+
+                <h2>Manage <b>Employees </b>  <button type="button"  class="btn btn-success float-right"
+                data-toggle="modal" data-target="#mymodal">Add New Employees</button> </h2>
+
+
+                {% with messages = get_flashed_messages() %}
+
+                {% if messages %}
+
+                {% for message in messages %}
+
+                <div class="alert alert-success alert-dismissable" role="alert">
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+                        <span aria-hidden="true">x</span>
+
+                    </button>
+
+
+                {{message}}
+
+
+                </div>
+
+
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+
+
+                <table class="table table-hover table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+
+                    </tr>
+
+
+                   {% for row in employees %}
+                    <tr>
+                        <td>{{row.name}}</td>
+                        <td>{{row.state}}</td>
+                        <td>{{row.salary}}</td>
+                        <td>{{row.grade}}</td>
+                        <td>{{row.room}}</td>
+                        <td>{{row.telnum}}</td>
+                        <td>{{row.picture}}</td>
+                        <td>{{row.keywords}}</td>
+
+                        <td>
+                            <a href="/update/{{row.telnum}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{row.telnum}}">Edit</a>
+                            <a href="/delete/{{row.telnum}}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+
+
+                        </td>
+
+                    </tr>
+
+
+                  <!-- Modal Edit Employee-->
+<div id="modaledit{{row.telnum}}" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+
+
+      <div class="modal-content">
+
+
+         <div class="modal-header">
+
+
+            <h4 class="modal-title">Update Information</h4>
+
+
+         </div>
+
+
+         <div class="modal-body">
+
+
+            <form action="{{url_for('update')}}" method="POST">
+
+
+               <div class="form-group">
+
+
+                  <label>Name:
+
+
+                  <input type="text" class="form-control" name="name" value="{{row.name}}"></label>
+
+
+               </div>
+
+
+
+               <div class="form-group">
+
+
+                  <label>State:
+
+                  <input type="text" class="form-control" name="state" value="{{row.state}}"></label>
+
+
+               </div>
+
+
+               <div class="form-group">
+
+
+                  <label>Salary:
+
+                  <input type="number" class="form-control" name="salary" value="{{row.salary}}"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Grade:
+
+                  <input type="number" class="form-control" name="grade" value="{{row.grade}}"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Room:
+
+                  <input type="number" class="form-control" name="room" value="{{row.room}}"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Telnum:
+
+                  <input type="number" class="form-control" name="telnum" value="{{row.telnum}}"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Picture:
+
+                  <input type="file" class="form-control" name="picture" value="{{row.picture}}"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Keywords:
+
+                  <input type="text" class="form-control" name="keywords" value="{{row.keywords}}"></label>
+
+
+               </div>
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Update</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+</div>
+
+
+                    {% endfor %}
+
+
+                </table>
+
+
+            </div>
+
+
+
+                  <!-- Modal Add Employee-->
+
+
+<div id="mymodal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+
+            <h4 class="modal-title">Add Employee</h4>
+         </div>
+         <div class="modal-body">
+
+            <form action="{{url_for('insert')}}" method="POST">
+
+
+               <div class="form-group">
+                   <label>Name:
+                  <input type="text" class="form-control" name = "name"></label>
+
+
+               </div>
+
+
+                <div class="form-group">
+
+
+                  <label>State:
+                  <input type="text" class="form-control" name="state"></label>
+
+
+               </div>
+
+
+                <div class="form-group">
+
+
+                  <label>Salary
+                  <input type="number" class="form-control" name="salary"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Grade
+                  <input type="number" class="form-control" name="grade"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Room
+                  <input type="number" class="form-control" name="room"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Telnum
+                  <input type="number" class="form-control" name="telnum"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Picture
+                  <input type="file" class="form-control" name="picture"></label>
+
+
+               </div>
+                <div class="form-group">
+
+
+                  <label>Keywords
+                  <input type="text" class="form-control" name="keywords" ></label>
+
+
+               </div>
+
+
+               <div class="form-group">
+
+
+                  <button class="btn btn-primary" type="submit">Add People</button>
+
+
+               </div>
+
+
+            </form>
+
+
+         </div>
+
+
+         <div class="modal-footer">
+
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+         </div>
+
+
+      </div>
+
+
+   </div>
+
+
+</div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
